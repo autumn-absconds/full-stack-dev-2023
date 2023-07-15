@@ -519,7 +519,7 @@ import {sum} from './lib.js'
 ## Chapter 2 - Server Concepts with Node - http module
 
 ### [[ Chapter Notes ]] 
-````
+```
 const http = require('http');
 const fs = require('fs');
 
