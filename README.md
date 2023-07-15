@@ -492,6 +492,8 @@ import {sum} from './lib.js'
 - use `npm update` to update packages safely. `npm outdated` shows outdated and latets versions of packages installed in your  **package.json**
 -  use `npm uninstall <package-name>` to uninstall packages from `package.json`
 - `node_modules` should not be shared - you can make `.gitignore`to ignore them to be uploaded.
+- use of ~,^ before the version number of a module.
+- a module is like a function which is impoted for he use .
 
 
 
@@ -517,6 +519,23 @@ import {sum} from './lib.js'
 ## Chapter 2 - Server Concepts with Node - http module
 
 ### [[ Chapter Notes ]] 
+````
+const http = require('http');
+const fs = require('fs');
+
+const index = fs.readFileSync('index.html');
+const data = fs.readFileSync('data.json');
+
+const httpServer = http.createServer((req, res) => {
+    console.log('started')
+  console.log(req.url);
+    res.setHeader('Content-Type', 'text/html')
+    res.setHeader('Content-Length', 'application/json')
+    res.end(index)
+})
+
+httpServer.listen(8080);
+```
 
 #### HTTP requests
 
@@ -538,7 +557,79 @@ Response object comprises of many properties, but important ones are :
 
 ####  More info
 
-- HTTP requests and responses can be tracked from  **Dev Tools** > **Network Tab** 
+- HTTP requests and responses can be tracked from  **Dev Tools** > **Network Tab**
+- `req.url` proides the routes like if its 'http://localhost:8080/' then output response will be '/', as its on homepage . and we can uuse switch to make a router .
+```
+const http = require('http');
+const fs = require('fs');
+
+const index = fs.readFileSync('index.html');
+const data = fs.readFileSync('data.json');
+
+const httpServer = http.createServer((req, res) => {
+    console.log('started')
+
+    switch (req.url) {
+        case '/':
+            res.setHeader('Content-Type', 'text/html');
+            res.end(index);
+            break;
+        case '/data':
+            res.setHeader('Content-Type', 'application/json');
+            res.end(data);
+            break;
+        default:
+            res.writeHead(404);
+            res.end();
+    }
+
+})
+
+httpServer.listen(8080);
+```
+
+
+- we can also mak it dynamic routing like in this first json is converted into json to extract the product array then that is used to chnage the title and image inside the html(even html is converted to string so that replace() function can work)
+```
+const http = require('http');
+const fs = require('fs');
+
+const index = fs.readFileSync('index.html');
+const data = JSON.parse(fs.readFileSync('data.json'));
+const prodcut = data.products[0];
+let hindex;
+
+const httpServer = http.createServer((req, res) => {
+    console.log('started')
+
+    switch (req.url) {
+        case '/':
+            res.setHeader('Content-Type', 'text/html');
+            res.end(index);
+            break;
+        case '/data':
+            res.setHeader('Content-Type', 'application/json');
+            res.end(JSON.stringify(data));
+            break;
+        case '/a':
+            res.setHeader('Content-Type', 'text/html');
+            hindex = index.toString();
+            hindex = hindex.replace('*title*', prodcut.title);
+            hindex = hindex.replace('*image*', prodcut.thumbnail);
+            res.end(hindex);
+            break;
+
+        default:
+            res.writeHead(404);
+            res.end();
+    }
+
+})
+
+httpServer.listen(8080);
+```
+
+
 - In Node, we can use core **http** module to create a Server which listens to requests, modify data in-between and provides responses. Server needs a **PORT** to be bound to - use only port number > 1024.
 - Server can simply be said as **a function which receives a request and returns a response**. [ This is just for understanding]
 - There are many **Headers** which exists on request and responses - shared a link below with list of existing headers.
