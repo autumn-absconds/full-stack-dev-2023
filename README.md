@@ -276,7 +276,7 @@ httpServer.listen(8080);
 	- **res.json** - for sending JSON 
 	- **res.sendStatus(404)** - for sending HTTP status only
 
-   ```
+```
    const express = require('express');
 const fs = require('fs');
 
