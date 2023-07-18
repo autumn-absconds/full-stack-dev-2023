@@ -305,7 +305,14 @@ server.listen(3000 , () => {
 	- PATCH
  - API / Endpoints / Routes are used inter-changeably but they are related to server paths.
 
-- **Middle-ware** : Modifies the request before it reaches the next middleware or endpoints.
+**Middle-ware** : Modifies the request before it reaches the next middleware or endpoints.
+```
+server.use((req,res,next)=>{
+    console.log(req.method,new Date,req.ip,req.get('user-agent'));
+    next();
+})
+```
+**output** - ```GET 2023-07-18T07:13:01.926Z ::1 Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82```
 - Sequence of middleware is very important, as first middleware is first traversed by request.
 - Middle-wares can be used for many use cases, like loggers, authentication, parsing data etc.
 - Middle-ware can be :
