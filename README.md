@@ -156,7 +156,7 @@ Response object comprises of many properties, but important ones are :
 ####  More info
 
 - HTTP requests and responses can be tracked from  **Dev Tools** > **Network Tab**
-- `req.url` proides the routes like if its 'http://localhost:8080/' then output response will be '/', as its on homepage . and we can uuse switch to make a router .
+- `req.url` (  **Route Params** (url/`john`) - #### HTTP requests) proides the routes like if its 'http://localhost:8080/' then output response will be '/', as its on homepage . and we can uuse switch to make a router .
 ```
 const http = require('http');
 const fs = require('fs');
@@ -227,6 +227,23 @@ const httpServer = http.createServer((req, res) => {
 httpServer.listen(8080);
 ```
 
+- ((   **Query Parameters** (url?`name=john`)  - #### HTTP requests))-
+  ```
+    const auth = (req, res, next) => {
+    console.log(req.query);
+    if (req.query.name === 'admin') {
+        next();
+    }
+    else {
+        res.send(403);
+    }
+   
+}
+
+server.get('/',auth, (req, res) => {
+    res.json(prodcut);
+})
+  ```
 
 - In Node, we can use core **http** module to create a Server which listens to requests, modify data in-between and provides responses. Server needs a **PORT** to be bound to - use only port number > 1024.
 - Server can simply be said as **a function which receives a request and returns a response**. [ This is just for understanding]
