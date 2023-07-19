@@ -227,24 +227,6 @@ const httpServer = http.createServer((req, res) => {
 httpServer.listen(8080);
 ```
 
-- ((   **Query Parameters** (url?`name=john`)  - #### HTTP requests))-
-  ```
-    const auth = (req, res, next) => {
-    console.log(req.query);
-    if (req.query.name === 'admin') {
-        next();
-    }
-    else {
-        res.send(403);
-    }
-   
-}
-
-server.get('/',auth, (req, res) => {
-    res.json(prodcut);
-})
-  ```
-
 - In Node, we can use core **http** module to create a Server which listens to requests, modify data in-between and provides responses. Server needs a **PORT** to be bound to - use only port number > 1024.
 - Server can simply be said as **a function which receives a request and returns a response**. [ This is just for understanding]
 - There are many **Headers** which exists on request and responses - shared a link below with list of existing headers.
