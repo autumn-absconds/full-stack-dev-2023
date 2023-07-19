@@ -314,7 +314,7 @@ server.use((req,res,next)=>{
 ```
 **output** - ```GET 2023-07-18T07:13:01.926Z ::1 Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36 Edg/114.0.1823.82```
 
- _** Note **_ here the next() works like a pass , if it is used then middleware will do its work and after that it will pass means will move forward(get a response) but if this is not used then it will no get any response and will kepp loading 
+_Note_ - here the next() works like a pass , if it is used then middleware will do its work and after that it will pass means will move forward(get a response) but if this is not used then it will no get any response and will kepp loading 
  
 
 - Sequence of middleware is very important, as first middleware is first traversed by request.
@@ -331,7 +331,9 @@ server.use((req,res,next)=>{
 	- **req.hostname** - like google.com / localhost
 	- **req.query** - for capturing query parameters from URL e.g. localhost:8080 ? **query=value**  (like - https://chintu.in?password=123) 			  so the password is in query..
 	- **req.body** -for capturing request body data (but its needs a middleware for body data decoding)
-	-  **req.params** - for capturing URL parameters for route path like `/products/:id` 
+	-  **req.params** - for capturing URL parameters for route path like `/products/:id`
+
+   	
 
 	```
 	const auth = (req,res,next)=>{
@@ -342,10 +344,10 @@ server.use((req,res,next)=>{
 	```
 		in this the function is stored in 'auth' variable, which can be used  anywhere for middleware and its a clean approach.
 
-		but as this will be global level( - Application level : server.use(**middleware**) ).
+		but as this will be global level(**Application level** : server.use(**middleware**) ).
 
 
-	- if we like to use this as and auth (basic level) then do like this
+	- if we like to use this as and auth (**Router level** ) then do like this
 ```
   const auth = (req, res, next) => {
     console.log(req.query);
@@ -369,10 +371,14 @@ server.get('/',auth, (req, res) => {
 
 
 
-- **Static Hosting** : we can make 1 or more folders as static hosted using **express.static** middleware.
+- **Static Hosting** (**Built-in middleware**) : we can make 1 or more folders as static hosted using **express.static** middleware.
 	`server.use(express.static(< directory >))`
 Static hosting is like sharing a folder/directory and making its file readable as it is.
 Note : `index.html` is default file which would be read in a static hosted folder, if you don't mention any file name.
+`server.use(express.static('public'));`
+the file in `public` folder is index.html so type `url/index.html` (or just url only as index is taken as the main root) or if any other file like img.png then `url/img.png`
+
+-**Morgan**(**External Middle-wares**) : this is a logger which can be installed and then used like `server.use(morgan('dev'));`
 
 3 major ways of sending data from client to server via request are :
 
